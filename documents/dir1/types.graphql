@@ -1,0 +1,9 @@
+mutation login {
+  createSession(email: "test@123.com", password: "foobar") {
+    user {
+      id
+      email
+      name
+    }
+  }
+}

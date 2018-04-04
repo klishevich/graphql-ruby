@@ -1,17 +1,17 @@
 console.log('hi!');
+const secret = require('./secrets');
 
 const https = require('https');
 const fs = require('fs');
 
 const options = {
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem'),
+    key: fs.readFileSync(secret.key),
+    cert: fs.readFileSync(secret.cert),
     passphrase: 'qwerty'
 };
 
 https.createServer(options, function (req, res) {
     const client = require('graphql-ruby-client/sync');
-    const secret = require('./secrets');
     client({
         url: secret.url,
         secret: secret.secret,
@@ -19,7 +19,7 @@ https.createServer(options, function (req, res) {
         path: 'documents/',
         outfile: 'OperationStoreClient.js'
     }).then((res) => {
-       console.log(res);
+       console.log('!!! result:', res);
     });
     res.writeHead(200);
     res.end("hello world\n");
